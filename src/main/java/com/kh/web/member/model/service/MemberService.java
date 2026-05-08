@@ -1,10 +1,13 @@
 package com.kh.web.member.model.service;
 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.web.common.Template;
 import com.kh.web.member.model.dao.MemberDao;
 import com.kh.web.member.model.dto.MemberDto;
+import com.kh.web.member.model.dto.UpdatePwdDto;
 
 public class MemberService {
 	
@@ -54,8 +57,51 @@ public class MemberService {
 		
 	}
 	
+	public MemberDto updateMember(Map<String,String> map) {
+		MemberDto member = null;
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		int result = md.updateMember(sqlSession, map);
+		
+		if(result >0) { // DAO에 가기 위해서는 성공했을때문 가면된다
+			sqlSession.commit(); // 업데이트 성공했을 경우이다
+			member = md.selectMember(sqlSession, Long.parseLong(map.get("userNo"))); //식별할 수 있는 식별키만 넣으면 된다
+		}
+		sqlSession.close();
+		
+		return member;
+	}
 	
+	public int updatePassword(UpdatePwdDto upd) {
+		
+		SqlSession sqlSession = Template.getSqlSession();
+		
+		int result = md.updatePassword(sqlSession,upd);
+		
+		if(result > 0) {
+			sqlSession.commit();
+		}
+		sqlSession.close();
+		
+		return result;
+		
+	}
 	
+	public int deleteMember(MemberDto member) {
+		
+		SqlSession session = Template.getSqlSession();
+		
+		int result = md.deleteMember(session, member);
+		
+		if(result > 0) {
+			session.commit();
+			
+		}
+		
+		session.close();
+		
+		return result;
+	}
 	
 	
 	

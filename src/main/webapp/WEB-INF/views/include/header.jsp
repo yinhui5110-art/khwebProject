@@ -123,11 +123,19 @@
          </c:when>
          <c:otherwise>
           <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="">내정보</a>
+          <a class="nav-link js-scroll-trigger" href="http://localhost:8089/kh/mypage.do">내정보</a>
           </li>
           <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="" onclick="">로그아웃</a>
+          <a class="nav-link js-scroll-trigger" onclick="logout();">로그아웃</a>
           </li>
+          <script>
+				function logout(){
+					// 서버에 요청을 보내기 위해 브라우저에 속성을 바꿔줘야한다
+					location.href = 'http://localhost:8089/kh/logout.do';
+				};          
+          
+          
+          </script>
        </c:otherwise>
        </c:choose>
           

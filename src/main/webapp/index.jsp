@@ -24,6 +24,19 @@
 	 <jsp:include page="WEB-INF/views/include/header.jsp"/>
 	 <jsp:include page="WEB-INF/views/include/main.jsp"/>
 	 <jsp:include page="WEB-INF/views/include/footer.jsp"/>
+	 
+	 <!-- 
+	 	Java Oracle JDBC MyBatis
+	 						+Network(web) -> 클라이언트 서버, DB
+	 	HTML CSS JS
+	 
+	  -->
+	 
+	 
+	 
+	 
+	 
+	 
 	
 </body>
 </html>
