@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="boardMapper">
+
+	<select id="selectBoardCount" resultType="_int">
+		SELECT
+				COUNT(*)
+		 FROM
+		 		WEB_BOARD
+		 WHERE
+		 		STATUS = 'N'			
+	</select>
+	
+	<select id="selectBoardList"
+			parameterType="com.kh.web.common.model.dto.PageInfo"
+			resultType="board">
+		SELECT
+			   BOARD_NO	
+			 , USER_NAME
+			 , BOARD_TITLE
+			 , CREATE_DATE
+			 , COUNT
+		FROM
+				WEB_BOARD W
+		JOIN
+				WEB_MEMBER USING(USER_NO)
+		WHERE
+				W.STATUS ='N'
+		ORDER
+		  BY
+		  		CREATE_DATE DESC
+		  OFFSET #{offset} ROWS FETCH NEXT #{boardLimit} ROWS ONLY							 	
+			
+			
+	 </select>
+	
+	
+</mapper>
+
+
