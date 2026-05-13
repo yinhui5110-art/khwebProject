@@ -12,10 +12,10 @@ import com.kh.web.member.model.dto.MemberDto;
 import com.kh.web.member.model.service.MemberService;
 
 @WebServlet("/join.do")
-public class Joincontroller extends HttpServlet {
+public class JoinController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public Joincontroller() {
+    public JoinController() {
         super();
     }
 

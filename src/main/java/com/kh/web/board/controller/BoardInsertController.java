@@ -12,7 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.kh.web.board.model.dto.BoardDto;
+import com.kh.web.common.MyRenamePolicy;
 import com.kh.web.member.model.dto.MemberDto;
+import com.oreilly.servlet.MultipartRequest;
 
 @WebServlet("/insert.bo")
 public class BoardInsertController extends HttpServlet {
@@ -28,7 +31,7 @@ public class BoardInsertController extends HttpServlet {
 		// 		  => 파일     =>  이거저거          =>DTO로 가공
 		//
 	String boardTitle = request.getParameter("baordTitle");
-	System.out.println(boardTitle);
+	//System.out.println(boardTitle);
 	
 	// form태그로 요청 했을 때 multipart/form-data형식으로 요청한다면
 	//request.getParatemeter로는 요청 시 전달값을 뽑아낼 수 없다
@@ -77,6 +80,38 @@ public class BoardInsertController extends HttpServlet {
 		
 		// a.jpg  a2.jpg a3.jpg
 		// kakaoTalk_20260511_151131 123 .jsp
+		/*
+		 * 
+		 * HttpServletRequest
+		 * => MultipartRequest객체로 변환
+		 * 
+		 * MultiparRequest multiRequest =
+		 * new MultiRequest(request, 저장경로, 용량제한, 인코딩방식, 파일명을 수정해주는 rename메소드를
+		 * 						가지고있는 객체);
+		 * 생성자를 호출하면 자동으로 파일리 업로드
+		 * 
+		 * 일반적으로 파일의 경우 반드시 파일명을 변경해서 업로드하는 것이 관례이다
+		 * 똑같은 파일명을 방지하기위해서 / 파일명에 한글, 특수문자, 공백문자 포함될 경우 서버에따라 문제가 발생
+		 * 
+		 */
+		 MultipartRequest multiRequest = 
+				 new MultipartRequest(request,savePath, maxSize, "UTF-8", new MyRenamePolicy());
+		
+		String boardTitle = multiRequest.getParameter("boardTitle");
+		//System.out.println(boardTitle);
+		String boardContent = multiRequest.getParameter("boardContent");
+		Long userNo = member.getUserNo();
+		
+		BoardDto board = new BoardDto();
+		board.setBoard
+		
+		
+		
+		
+		
+		
+		
+	
 		
 	}
 	
