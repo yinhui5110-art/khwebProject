@@ -27,7 +27,7 @@
 
             <div class="form-group">
                 <label for="usr">제목</label>
-                <input type="text" class="form-control" id="usr" name="boardTitnle">
+                <input type="text" class="form-control" id="usr" name="boardTitle">
             </div>
 
             <div class="form-group">

@@ -12,7 +12,17 @@ public class BoardDto {
 	private int count;
 	private String status;
 	private String userName;
+	private String src;
 	
+	public String getSrc() {
+		return src;
+	}
+	public void setSrc(String src) {
+		this.src = src;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public String getUserName() {
 		return userName;
 	}

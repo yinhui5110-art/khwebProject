@@ -1,5 +1,6 @@
 package com.kh.web.board.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletContext;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.kh.web.board.model.dto.AttachmentDto;
 import com.kh.web.board.model.dto.BoardDto;
+import com.kh.web.board.model.service.BoardService;
 import com.kh.web.common.MyRenamePolicy;
 import com.kh.web.member.model.dto.MemberDto;
 import com.oreilly.servlet.MultipartRequest;
@@ -30,7 +33,7 @@ public class BoardInsertController extends HttpServlet {
 		// 값 뽑기 => 제목, 내용 => BoardDto로 가공
 		// 		  => 파일     =>  이거저거          =>DTO로 가공
 		//
-	String boardTitle = request.getParameter("baordTitle");
+	String boardTitle = request.getParameter("boardTitle");
 	//System.out.println(boardTitle);
 	
 	// form태그로 요청 했을 때 multipart/form-data형식으로 요청한다면
@@ -70,7 +73,7 @@ public class BoardInsertController extends HttpServlet {
 		// request.getServletContext()
 		ServletContext application = session.getServletContext();
 		String savePath = application.getRealPath("/resources/board_upfiles");
-		System.out.println(savePath);
+		//System.out.println(savePath);
 		// 장점
 		// 동적으로 실제 결오 확인 | 서버환경에 관계없이 동작한다
 		// 단점
@@ -97,15 +100,45 @@ public class BoardInsertController extends HttpServlet {
 		 MultipartRequest multiRequest = 
 				 new MultipartRequest(request,savePath, maxSize, "UTF-8", new MyRenamePolicy());
 		
-		String boardTitle = multiRequest.getParameter("boardTitle");
+		String boardtitle = multiRequest.getParameter("boardTitle");
 		//System.out.println(boardTitle);
 		String boardContent = multiRequest.getParameter("boardContent");
 		Long userNo = member.getUserNo();
 		
 		BoardDto board = new BoardDto();
-		board.setBoard
+		board.setBoardTitle(boardTitle);
+		board.setBoardContent(boardContent);
+		board.setUserNo(userNo);
 		
+		AttachmentDto at = null;
+		if(multiRequest.getOriginalFileName("upfile")!= null) {
+			at = new AttachmentDto();
+			
+			at.setOriginName(multiRequest.getOriginalFileName("upfile"));
+			at.setChangeName(multiRequest.getFilesystemName("upfile"));
+			at.setFilePath("resources/board_upfiles");
+			at.setBoardType("C");
+			at.setFileLevel (2);
+		}
+		int result = new BoardService().insertBoard(board,at);	
 		
+		if(result > 0) {
+			/*
+			int listCount;
+			int currentPage;
+			request.getRequestDispatcher("/WEB-INF/views/board/boards.jsp").forward(request, response);
+			*/
+			response.sendRedirect("/kh/boards.do?page=1");
+			
+		} else {
+			
+			if(at != null) {
+				new File(savePath + "/" + at.getChangeName()).delete();
+			}
+			session.setAttribute("message", "게시글 작성 실패");
+			response.sendRedirect("/kh/fail.do");
+			
+		}
 		
 		
 		

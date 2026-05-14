@@ -20,10 +20,11 @@ public class LogoutController extends HttpServlet {
 		// 로그아웃 정의 => 세션에 저장되어 있는 인증된 사용자의 정보를 제거하는것 
 		
 		HttpSession session = request.getSession();
-		//session.removeAttribute("userInfo");
-		session.invalidate(); //만료시킨다, 무효화한다라는 의미가 있다
+		session.removeAttribute("userInfo");
+		//session.invalidate(); //만료시킨다, 무효화한다라는 의미가 있다
 		
 		// 응답할때 값이 없기 때문에 sendRedirect사용한다
+		session. setAttribute("alertMsg","로그아웃 성공 주카포카");
 		response.sendRedirect("/kh");
 	
 	
