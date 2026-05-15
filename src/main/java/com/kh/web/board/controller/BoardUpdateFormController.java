@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.kh.web.board.model.dto.BoardDto;
+import com.kh.web.board.model.dto.BoardResponse;
 import com.kh.web.board.model.service.BoardService;
 import com.kh.web.member.model.dto.MemberDto;
 
@@ -32,7 +32,7 @@ public class BoardUpdateFormController extends HttpServlet {
 		board.setBoardNo(boardNo);
 		board.setUserNo(userNo);
 		*/
-		BoardDto board = new BoardService().selectBoard(boardNo);
+		BoardResponse board = new BoardService().selectBoard(boardNo);
 		if(board != null) {
 			if(board.getBoard().getUserNo().longValue() != userNo) {
 				

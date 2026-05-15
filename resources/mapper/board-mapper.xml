@@ -202,11 +202,91 @@
 		BY 
 				BOARD_NO DESC 
 	</select>
+	<resultMap id="imageResultSet" type="com.kh.web.board.model.dto.ImageResponse">
+		<id column="BOARD_NO" property="boardNo" />
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<collection property="files" ofType="com.kh.web.board.model.dto.AttachmentDto">
+			<id column="FILE_NO" property="fileNo" />
+			<result column="CHANGE_NAME" property="changeName"/>
+			<result column="FILE_PATH" property="filePath"/>
+		</collection>
+	</resultMap>
 	
 	
 	
 	
+	<select id="selectImageDetail" resultMap="imageResultSet">
+	SELECT
+			BOARD_NO
+		  , BOARD_TITLE
+		  , BOARD_CONTENT
+		  , FILE_NO
+		  , CHANGE_NAME
+		  , FILE_PATH
+   FROM
+   			WEB_IMAGE_BOARD
+   	JOIN
+   			WEB_ATTACHMENT ON (BOARD_NO = REF_BNO)
+   	WHERE
+   			BOARD_NO = #{boardNo}
+   	AND
+   			WEB_IMAGE_BOARD.STATUS = 'N'
+   	ORDER
+   	  BY
+   	  		BOARD_NO DESC 
+   	  												  	
 	
+	
+	</select>
+	
+	<insert id="insertReply">
+		INSERT
+		INTO
+				WEB_REPLY
+				(
+				REPLY_NO
+			  , REF_BNO
+			  , REPLY_CONTENT
+			  , REPLY_WRITER
+				)
+	VALUES
+				(
+				SEQ_REPLY.NEXTVAL
+				, #{refBno}
+				, #{replyContent}
+				, #{replyWriter}
+				)
+	
+	</insert>
+	
+	
+   <select id="selectReply"
+   	resultType="com.kh.web.ajax.model.dto.ReplyDto">
+   	
+   SELECT
+   			REPLY_NO
+   		,  REPLY_CONTENT
+   		, USER_NAME
+   		, CREATE_DATE
+   FROM
+   			WEB_REPLY
+   	JOIN
+   			WEB_MEMBER ON (REPLY_WRITER = USER_NO)
+   	WHERE
+   			WEB_REPLY.STATUS = 'N'
+   	AND		
+   			WEB_BNO = #{boardNo}
+   	ORDER
+   	  BY	
+   	  		REPLY_NO DESC								
+   
+   
+   
+   </select>
+	
+	
+
 	
 	
 	
